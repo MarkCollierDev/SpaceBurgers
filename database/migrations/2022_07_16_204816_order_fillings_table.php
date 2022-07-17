@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+        Schema::create('order_fillings', function (Blueprint $table) {
+            $table->id('pkId');
+            $table->unsignedInteger('orderId')->references('pkId')->on('orders');
+            $table->unsignedInteger('fillingId')->references('pkId')->on('filligs');
         });
     }
 
@@ -31,6 +27,5 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
     }
 };

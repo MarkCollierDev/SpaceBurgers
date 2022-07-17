@@ -10,4 +10,8 @@ class Bun extends Model
     protected $primaryKey = 'pkId';
     public $incrementing = true;
     protected $connection = 'sqlite';
+
+    public function Order() {
+        return $this->hasMany(Order::class, 'bunId', 'pkId');
+    }
 }

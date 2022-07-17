@@ -10,6 +10,7 @@ class OrderFilling extends Model
     protected $primaryKey = 'pkId';
     public $incrementing = true;
     protected $connection = 'sqlite';
+    public $timestamps = false;
 
     protected $fillable = [
         'orderId',

@@ -2,20 +2,32 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use App\Models\Crew;
+use Closure;
+use Illuminate\Http\Request;
 
-class Authenticate extends Middleware
+class Authenticate 
 {
+
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
+     * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return string|null
+     * @param  \Closure  $next
+     * @param  string|null  $guard
+     * @param  string|null  $field
+     * @return mixed
+     *
      */
-    protected function redirectTo($request)
+    public function handle(Request $request, Closure $next, $guard = null, $field = null)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+        $token = $request->bearerToken();
+        $crew = Crew::where('api_token', $token)->first();
+        if(!$crew) {
+            abort(401);
         }
+        
+        $request->attributes->add(['crewMember' => $crew]);
+        return $next($request);
     }
 }

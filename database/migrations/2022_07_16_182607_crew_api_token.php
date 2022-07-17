@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_fillings', function (Blueprint $table) {
-            $table->id('pkId');
-            $table->unsignedInteger('orderId')->references('pkId')->on('orders');
-            $table->unsignedInteger('fillingId')->references('pkId')->on('filligs');
+        Schema::table('crew', function ($table) {
+            $table->string('api_token', 80)->after('password')
+                                ->unique()
+                                ->nullable()
+                                ->default(null);
         });
     }
 
@@ -27,6 +28,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop('order_fillings');
+        Schema::table('crew', function (Blueprint $table) {
+            $table->dropColumn('api_token');
+        });
     }
 };

@@ -10,5 +10,9 @@ class Filling extends Model
     protected $primaryKey = 'pkId';
     public $incrementing = true;
     protected $connection = 'sqlite';
-    
+
+    public function Fillings()
+    {
+        return $this->hasManyThrough(Order::class, OrderFilling::class, 'fillingId', 'pkId', 'orderId', 'pkId');
+    }
 }
